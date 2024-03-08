@@ -1,0 +1,4 @@
+# not going to add the following files to repo
+.env
+node_modules
+package-lock.json
