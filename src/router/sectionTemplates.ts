@@ -2,10 +2,14 @@ const route = require("express").Router({});
 import { Templates } from "../models/templates";
 import { Sections } from "../models/sections";
 import { keywordsModule } from "../models/keywords";
-import { mongooseInstance } from "../models/mongooseExport"
-import { ObjectId } from "mongodb";
+import { SectionCategory } from "models/sectionCategories";
+
 const serverErrorMessage = "Internal Server Error"
 const noSectionDataFound = "No Section Data Available"
+const newGeneratedSection = "New Section Data Created";
+const categoriesAllowed = ["Subjective", "Objective", "Assessment", "Plan"];
+const invalidSectionCategory = `Invalid Section Category Passed as parameter\n Allowed Categories: ${categoriesAllowed}`;
+const invalidSectionCategoryError = `Allowed Section Categories: ${categoriesAllowed}`
 
 /* 
     API to get A Single Section Data based on its sectionCategory / Category
@@ -23,11 +27,6 @@ route.get("/sections", async function(req: any, res: any){
     }
 });
 
-
-const newGeneratedSection = "New Section Data Created";
-const categoriesAllowed = ["Subjective", "Objective", "Assessment", "Plan"];
-const invalidSectionCategory = `Invalid Section Category Passed as parameter\n Allowed Categories: ${categoriesAllowed}`;
-const invalidSectionCategoryError = `Allowed Section Categories: ${categoriesAllowed}`
 
 route.get("/getSection/:sectionCategory/", async function (req: any, res: any){
     const category = req.params.sectionCategory;
@@ -72,26 +71,6 @@ route.get("/getTemplate/:templateId", async function (req: any, res: any){
     }
 });
 
-/* API to Add Template to particular section
-    @@params required:  sectionCaategory
-    @@params required:  sectionId
-*/
-/* route.get("/getAllTemplates/:sectionCategory/", async function (req: any, res: any){
-    const { sectionCategory } = req.params;
-    if (categoriesAllowed.includes(sectionCategory)) {
-
-        try{
-            const allTemplates = await Templates.find() || [];
-            res.status(200).json(allTemplates)        
-        }catch(error){
-            res.status(400).json({message: "Some error occoured while retrieving all templates", error})
-        }
-
-    }else {
-        return res.status(403).json({message: invalidSectionCategory, error: invalidSectionCategoryError, supplement: `Section name passed: ${req.params.sectionCategory} | section names are case sensitive`})
-    }
-})
- */
 
 route.post("/addTemplate/:sectionCategory/",  async function (req: any, res: any){
     const { sectionCategory } = req.params;
@@ -174,6 +153,57 @@ route.post("/addTemplate/:sectionCategory/",  async function (req: any, res: any
 });
 
 /* 
+    API To Edit existing template:
+    
+*/
+
+route.post("/editSectionTemplate/:sectionCategory/:templateId", async function (req: any, res: any){
+    if (categoriesAllowed.includes(req.params.sectionCategory)){
+        const { templateId, sectionCategory } = req.params;
+        
+        try{
+            const template = await Templates.findOne({_id: templateId});
+            if (!template || !Object.keys(template).length) throw Error("Non Existing Template attempted to Edit")
+        }
+        catch(error){
+            return res.status(404).json({message: 'non existing template', error: error.message})
+        }
+        const { keywords } = req.body;
+        for (let i = 0; i< keywords.length; i++){
+
+        }
+
+        const keysToUpdate = {
+            ...(req.body.title ? {title:req.body.title} :{}),
+            ...(req.body.templateContent ? {templateContent: req.body.templateContent} : {}),
+        }
+        if (Object.keys(keysToUpdate).length) {
+            try{
+                const section = await Sections.findOne({category: sectionCategory});
+                if (!section || !Object.keys(section).length) throw Error(`Cannot find any section with category: ${sectionCategory}`);
+                const templateIndexToUpdate = section.templates.findIndex(t=> t.templateId === templateId);
+                section.templates[templateIndexToUpdate] = {
+                    templateId: templateId,
+                    ...(keysToUpdate.title ? {title:keysToUpdate.title} : {title: section.templates[templateIndexToUpdate].title}),
+                } as any;
+                await Templates.updateOne({_id: templateId}, {$set:keysToUpdate});
+                await section.save();
+                return res.status(201).json({message: `Template Updated Successfully`})
+            }
+            catch(error){
+                return res.status(500).json({message: "Error in updating template", error: error.message})
+            }
+        }
+        else {
+            return res.status(200).json({message: "No data to update"})
+        }
+    }
+    else {
+        return res.status(403).json({message: invalidSectionCategory, error: invalidSectionCategoryError, supplement: `Section name passed: ${req.params.sectionCategory} | section names are case sensitive`})
+    }
+});
+
+/* 
     * Get all keywords
 */
 route.get("/getKeywords", async function (req: any, res: any){
@@ -183,6 +213,23 @@ route.get("/getKeywords", async function (req: any, res: any){
         return res.status(200).json(allKeywords);
     }catch(error){
         return res.status(500).json({message:serverErrorMessage, error: error.message})
+    }
+})
+
+route.delete("/removeTemplate/:sectionCategory/:templateId", async function(req: any, res: any){
+    if(categoriesAllowed.includes(req.params.sectionCategory)){
+        try{
+            const section = await Sections.findOne({category: req.params.sectionCategory})
+            const templateIndexToDel = section.templates.findIndex(t=> t.templateId === req.params.templateId);
+            section.templates.splice(templateIndexToDel, 1);
+            await section.save();
+            await Templates.findOneAndDelete({_id: req.params.templateId});
+            return res.status(200).json({message: `Template Deleted, section Updated: ${req.params.sectionCategory}`})
+        }catch(error){
+            return res.status(500).json({message: serverErrorMessage, error: error.message})
+        }
+    }else {
+        return res.status(403).json({message: invalidSectionCategory, error: invalidSectionCategoryError, supplement: `Section name passed: ${req.params.sectionCategory} | section names are case sensitive`})
     }
 })
 

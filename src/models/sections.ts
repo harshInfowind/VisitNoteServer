@@ -1,5 +1,4 @@
 import { mongooseInstance } from "./mongooseExport";
-import { keywordsModule } from "./keywords";
 
 const sectionSchema = new mongooseInstance.Schema({
     category: {
@@ -10,15 +9,15 @@ const sectionSchema = new mongooseInstance.Schema({
         type: [{
             templateId:{
                 type: String,
-                required: true
             },
             title: {
                 type: String,
-                required: true,
             },
-            keywords:[keywordsModule.keywordsSchema]
+            keywords:[{
+                keywordId: String,
+                keywordSubject: String
+            }]
         }],
-        require: false,
         default: []
     }
 })
