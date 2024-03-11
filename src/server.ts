@@ -20,7 +20,7 @@ app.use(cors({
 connectionModule()
 .then((res)=>{
     if (res === INITIAL_CONNECTION_ESTABLISHED) {
-        app.use("/sectionTemplate", sectionTemplate);
+        app.use("/", sectionTemplate);
         const server = http.createServer(app);
         server.listen(port, async ()=> console.log(`SERVER RUNNING AT PORT::${port}`))        
     }
