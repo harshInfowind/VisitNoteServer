@@ -95,7 +95,6 @@ route.get("/getTemplate/:templateId", async function (req: any, res: any){
 
 route.post("/addTemplate/:sectionCategory/",  async function (req: any, res: any){
     const { sectionCategory } = req.params;
-    console.log(req.body)
     let positiveResString = "";
     if (categoriesAllowed.includes(sectionCategory)) {
         /* 
@@ -157,7 +156,7 @@ route.post("/addTemplate/:sectionCategory/",  async function (req: any, res: any
                         await templateDocument.save();
                         positiveResString += " \n Template Saved"
                     }catch(error){
-                        return res.status(500).json({message: `Error in saving Template: ${templateData.title}`, error});
+                        return res.status(500).json({message: `Error in saving Template: ${templateDocument.title}`, error: error.message});
                     }
                     await Sections.updateOne({category: sectionCategory, _id: section._id}, {$set: {templates: templatesToUpdate}})
                     positiveResString += ` Template details: templateSaved: ${templateDocument.title} | TemplateId: ${templateDocument._id}`

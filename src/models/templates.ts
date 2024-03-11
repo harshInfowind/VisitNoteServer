@@ -6,12 +6,12 @@ const templateSchema = new mongooseInstance.Schema({
         categoryId: {
             type: mongooseInstance.Schema.ObjectId,
             required: true, 
-            unique: true
+            unique: false
         },
         categoryName: {
             type: String,
             required: true, 
-            unique: true
+            unique: false
         }
     },
     title: {
