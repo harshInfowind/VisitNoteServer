@@ -2,15 +2,10 @@ const route = require("express").Router({});
 import { Templates } from "../models/templates";
 import { Sections } from "../models/sections";
 import { keywordsModule } from "../models/keywords";
-import { SectionCategory } from "models/sectionCategories";
+import { INTERNAL_SERVER_ERROR, NO_SECTION_DATA, getAllowedSectionCategoryPrompt, getInvalidSectionCategory } from "../constants/errorPromts";
+import { categoriesAllowed } from "../constants/allowedSections";
 
-const serverErrorMessage = "Internal Server Error"
-const noSectionDataFound = "No Section Data Available"
 const newGeneratedSection = "New Section Data Created";
-const categoriesAllowed = ["Subjective", "Objective", "Assessment", "Plan"];
-const invalidSectionCategory = `Invalid Section Category Passed as parameter\n Allowed Categories: ${categoriesAllowed}`;
-const invalidSectionCategoryError = `Allowed Section Categories: ${categoriesAllowed}`
-
 /* 
     API to get A Single Section Data based on its sectionCategory / Category
 */
@@ -20,10 +15,10 @@ route.get("/sections", async function(req: any, res: any){
         if (allSections){
             res.status(200).json(allSections)
             }
-        else res.status(404).json({message: noSectionDataFound})
+        else res.status(404).json({message: NO_SECTION_DATA})
         
     }catch(err) {
-        res.status(400).json({message: serverErrorMessage, error: err.message})
+        res.status(400).json({message: INTERNAL_SERVER_ERROR, error: err.message})
     }
 });
 
@@ -49,10 +44,8 @@ route.get("/getSection/:sectionCategory/", async function (req: any, res: any){
             }
         }
         catch(err){
-            return res.status(400).json({message: serverErrorMessage, error: err.message})
+            return res.status(400).json({message: INTERNAL_SERVER_ERROR, error: err.message})
         }
-    }else {
-        return res.status(403).json({message: invalidSectionCategory, error: invalidSectionCategoryError, supplement: `Section name passed: ${req.params.sectionCategory} | section names are case sensitive`})
     }
 });
 
@@ -67,7 +60,7 @@ route.get("/getTemplate/:templateId", async function (req: any, res: any){
         const template = await Templates.findOne({_id: `${templateId}`});
         return res.status(200).json({template})
     }catch(err){
-        return res.status(500).json({message: serverErrorMessage})
+        return res.status(500).json({message: INTERNAL_SERVER_ERROR})
     }
 });
 
@@ -98,36 +91,10 @@ route.post("/addTemplate/:sectionCategory/",  async function (req: any, res: any
                     },
                     templateContent: templateData.templateContent,
                 });
-
-                try{
-                    for (let i = 0; i< templateData.keywords.length ;i++) {
-                        let keyword = await keywordsModule.Keywords.findOne({
-                            subject: templateData.keywords[i]
-                        }) ||  new keywordsModule.Keywords({
-                            template:{
-                                templateId: templateDocument._id,
-                                templateName: templateDocument.title
-                            },
-                            subject: templateData.keywords[i],
-                            editable: false
-                        });
-                        templateDocument.keywords.push({
-                            keywordId: keyword._id,
-                            keywordSubject: keyword.subject,
-                        })
-                        await keyword.save();
-                    }
-                    positiveResString += " \n keywords saved";
-
-                }
-                catch(keywordsDocCreationError) {
-                    return res.status(500).json({message: 'error in saving keywords', error: keywordsDocCreationError})
-                }
                 
                 const templatesToUpdate = [...(section.templates || []), ...([{
                     templateId: templateDocument._id,
                     title: templateDocument.title,
-                    keywords: templateDocument.keywords
                 }])]
                 positiveResString += "Section details Updated";
                 try {
@@ -148,7 +115,7 @@ route.post("/addTemplate/:sectionCategory/",  async function (req: any, res: any
             }
     }
     else {
-        res.status(403).json({message: invalidSectionCategory, error: invalidSectionCategoryError, supplement: `Section name passed: ${sectionCategory} | section names are case sensitive`})
+        res.status(403).json({message: getInvalidSectionCategory(categoriesAllowed), error: getAllowedSectionCategoryPrompt(categoriesAllowed), supplement: `Section name passed: ${sectionCategory} | section names are case sensitive`})
     }
 });
 
@@ -157,26 +124,23 @@ route.post("/addTemplate/:sectionCategory/",  async function (req: any, res: any
     
 */
 
-route.post("/editSectionTemplate/:sectionCategory/:templateId", async function (req: any, res: any){
+route.patch("/editSectionTemplate/:sectionCategory/:templateId", async function (req: any, res: any){
     if (categoriesAllowed.includes(req.params.sectionCategory)){
         const { templateId, sectionCategory } = req.params;
-        
+        let templateFound
         try{
-            const template = await Templates.findOne({_id: templateId});
-            if (!template || !Object.keys(template).length) throw Error("Non Existing Template attempted to Edit")
+             templateFound = await Templates.findOne({_id: templateId});
+            if (!templateFound || !Object.keys(templateFound).length) throw Error("Non Existing Template attempted to Edit")
         }
         catch(error){
             return res.status(404).json({message: 'non existing template', error: error.message})
-        }
-        const { keywords } = req.body;
-        for (let i = 0; i< keywords.length; i++){
-
         }
 
         const keysToUpdate = {
             ...(req.body.title ? {title:req.body.title} :{}),
             ...(req.body.templateContent ? {templateContent: req.body.templateContent} : {}),
         }
+
         if (Object.keys(keysToUpdate).length) {
             try{
                 const section = await Sections.findOne({category: sectionCategory});
@@ -199,7 +163,7 @@ route.post("/editSectionTemplate/:sectionCategory/:templateId", async function (
         }
     }
     else {
-        return res.status(403).json({message: invalidSectionCategory, error: invalidSectionCategoryError, supplement: `Section name passed: ${req.params.sectionCategory} | section names are case sensitive`})
+        return res.status(403).json({message: getInvalidSectionCategory(categoriesAllowed), error: getAllowedSectionCategoryPrompt(categoriesAllowed), supplement: `Section name passed: ${req.params.sectionCategory} | section names are case sensitive`})
     }
 });
 
@@ -212,7 +176,7 @@ route.get("/getKeywords", async function (req: any, res: any){
         const allKeywords = await Keywords.find({})
         return res.status(200).json(allKeywords);
     }catch(error){
-        return res.status(500).json({message:serverErrorMessage, error: error.message})
+        return res.status(500).json({message:INTERNAL_SERVER_ERROR, error: error.message})
     }
 })
 
@@ -226,10 +190,10 @@ route.delete("/removeTemplate/:sectionCategory/:templateId", async function(req:
             await Templates.findOneAndDelete({_id: req.params.templateId});
             return res.status(200).json({message: `Template Deleted, section Updated: ${req.params.sectionCategory}`})
         }catch(error){
-            return res.status(500).json({message: serverErrorMessage, error: error.message})
+            return res.status(500).json({message: INTERNAL_SERVER_ERROR, error: error.message})
         }
     }else {
-        return res.status(403).json({message: invalidSectionCategory, error: invalidSectionCategoryError, supplement: `Section name passed: ${req.params.sectionCategory} | section names are case sensitive`})
+        return res.status(403).json({message: getInvalidSectionCategory(categoriesAllowed), error: getAllowedSectionCategoryPrompt(categoriesAllowed), supplement: `Section name passed: ${req.params.sectionCategory} | section names are case sensitive`})
     }
 })
 

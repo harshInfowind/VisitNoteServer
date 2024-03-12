@@ -13,10 +13,6 @@ const sectionSchema = new mongooseInstance.Schema({
             title: {
                 type: String,
             },
-            keywords:[{
-                keywordId: String,
-                keywordSubject: String
-            }]
         }],
         default: []
     }

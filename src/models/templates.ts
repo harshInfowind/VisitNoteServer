@@ -23,10 +23,6 @@ const templateSchema = new mongooseInstance.Schema({
         required: false,
         default: ""
     },
-    keywords: [{
-        keywordId: String,
-        keywordSubject: String
-    }]
 })
 
 const TemplatesModel = mongooseInstance.model('templates', templateSchema);

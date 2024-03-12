@@ -1,0 +1,1 @@
+export const categoriesAllowed = ["Subjective", "Objective", "Assessment", "Plan"];
