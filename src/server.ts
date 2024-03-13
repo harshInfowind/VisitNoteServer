@@ -4,6 +4,7 @@ import * as http from "http";
 import { INITIAL_CONNECTION_ESTABLISHED } from "./helpers/ENUM_EVENTS";
 import { connectionModule } from "./database/config";
 import { sectionTemplate } from "./router/sectionTemplates";
+import { masterTemplateRoutes } from "./router/masterTemplate";
 import * as cors from "cors";
 const port = process.env.PORT
 export const app = express();
@@ -21,6 +22,7 @@ connectionModule()
 .then((res)=>{
     if (res === INITIAL_CONNECTION_ESTABLISHED) {
         app.use("/", sectionTemplate);
+        app.use("/", masterTemplateRoutes);
         const server = http.createServer(app);
         server.listen(port, async ()=> console.log(`SERVER RUNNING AT PORT::${port}`))        
     }
