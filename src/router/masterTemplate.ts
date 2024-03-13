@@ -39,18 +39,10 @@ route.post("/addMasterTemplate", async function (req: any, res: any){
         const masterTemplate = new MasterTemplate({
             title: masterTemplateData.title,
             sections: {
-                Subjective: {
-                    templateContent: ""
-                },
-                Objective: {
-                    templateContent: ""
-                },
-                Assessment: {
-                    templateContent: ""
-                },
-                Plan: {
-                    templateContent: ""
-                },
+                Subjective:  "",
+                Objective:  "",
+                Assessment: "",
+                Plan:  "",
             }
         });
 
@@ -62,7 +54,7 @@ route.post("/addMasterTemplate", async function (req: any, res: any){
              masterTemplate.set({
                 sections:{
                     ...masterTemplate.sections,
-                    [`${sectionKeys[i]}`]: masterTemplateData.sections?.[sectionKeys[i]].templateContent,
+                    [`${sectionKeys[i]}`]: masterTemplateData.sections?.[sectionKeys[i]],
                 }
             })
         }
