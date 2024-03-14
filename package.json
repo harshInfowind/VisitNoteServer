@@ -4,6 +4,8 @@
   "description": "server apis for visit_note_client application",
   "main": " /src/server.ts",
   "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
     "test": "jest",
     "start": "nodemon"
   },
