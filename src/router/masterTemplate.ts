@@ -43,7 +43,8 @@ route.post("/addMasterTemplate", async function (req: any, res: any){
                 Objective:  "",
                 Assessment: "",
                 Plan:  "",
-            }
+            },
+            ...(masterTemplateData.uniqueMeta ? {uniqueMeta: masterTemplateData.uniqueMeta} : {}),
         });
 
         for (let i = 0; i< sectionKeys.length; i++){

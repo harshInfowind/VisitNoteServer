@@ -12,7 +12,7 @@ const newGeneratedSection = "New Section Data Created";
 route.get("/sections", async function(req: any, res: any){
     try{
         const allSections = await Sections.find();
-        if (allSections){
+        if (allSections.length){
             res.status(200).json(allSections)
             }
         else res.status(404).json({message: NO_SECTION_DATA})
@@ -83,6 +83,7 @@ route.post("/addTemplate/:sectionCategory/",  async function (req: any, res: any
         }
             if (Object.keys(section).length) {
                 const templateData = req.body;
+                console.log(req.body)
                 const templateDocument = new Templates({
                     title: templateData.title,
                     category: {
@@ -90,6 +91,7 @@ route.post("/addTemplate/:sectionCategory/",  async function (req: any, res: any
                         categoryName: section.category
                     },
                     templateContent: templateData.templateContent,
+                    ...(!templateData?.uniqueMeta?.originalTemplate ? {uniqueMeta: templateData?.uniqueMeta} : {}),
                 });
                 
                 const templatesToUpdate = [...(section.templates || []), ...([{

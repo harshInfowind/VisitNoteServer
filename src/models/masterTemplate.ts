@@ -19,6 +19,31 @@ const masterTemplateSchema = new mongooseInstance.Schema({
         Plan:{
                 type: String
         },
+    },
+    uniqueMeta: {
+        originalTemplate: {
+            type: Boolean,
+            required: false,
+            default: true
+        },
+        parentTemplate: {
+            type: {
+                templateId: {
+                    type: mongooseInstance.Schema.ObjectId,
+                    unique: true,
+                    required: false,
+                    default: null,
+                },
+                title:{
+                    type: String,
+                    required: false,
+                    unique: false,
+                    default: "",
+                },
+            },
+            required: false,
+            default:  null,
+        }
     }
 });
 
