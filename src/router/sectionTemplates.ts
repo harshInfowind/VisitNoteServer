@@ -83,7 +83,6 @@ route.post("/addTemplate/:sectionCategory/",  async function (req: any, res: any
         }
             if (Object.keys(section).length) {
                 const templateData = req.body;
-                console.log(req.body)
                 const templateDocument = new Templates({
                     title: templateData.title,
                     category: {
@@ -113,7 +112,6 @@ route.post("/addTemplate/:sectionCategory/",  async function (req: any, res: any
                 catch(err){
                    return res.status(400).json({message: `Error in Updating Templates for Section:${sectionCategory}`, error: err.message})
                 }
-
             }
     }
     else {
@@ -141,6 +139,10 @@ route.patch("/editSectionTemplate/:sectionCategory/:templateId", async function 
         const keysToUpdate = {
             ...(req.body.title ? {title:req.body.title} :{}),
             ...(req.body.templateContent ? {templateContent: req.body.templateContent} : {}),
+            uniqueMeta:{
+                originalTemplate: true,
+                parentTemplate: req.body.uniqueMeta.parentTemplate || null,
+            }
         }
 
         if (Object.keys(keysToUpdate).length) {

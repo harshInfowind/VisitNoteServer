@@ -82,7 +82,15 @@ route.patch("/editMasterTemplate/:templateId", async function (req: any, res: an
         const masterTemplateToUpdate = await MasterTemplate.findOne({_id: templateId});
         if (!masterTemplateToUpdate) throw new Error(`MAster template with Id: ${templateId} doesn't exist`);
         if (dataToUpdate.title && dataToUpdate.title !== masterTemplateToUpdate.title) {
-            masterTemplateToUpdate.set({title: dataToUpdate.title});
+            masterTemplateToUpdate.set({
+                title: dataToUpdate.title,
+            });
+            masterTemplateToUpdate.set({
+                uniqueMeta: {
+                    originalTemplate: dataToUpdate.uniqueMeta?.originalTemplate || true,
+                    parentTemplate: dataToUpdate.uniqueMeta?.parentTemplate || null
+                }
+            })
         }
         if (Object.keys(dataToUpdate.sections || {}).length) {
             const sectionKeys = Object.keys(dataToUpdate.sections);

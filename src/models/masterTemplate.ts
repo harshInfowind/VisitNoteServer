@@ -30,7 +30,6 @@ const masterTemplateSchema = new mongooseInstance.Schema({
             type: {
                 templateId: {
                     type: mongooseInstance.Schema.ObjectId,
-                    unique: true,
                     required: false,
                     default: null,
                 },
