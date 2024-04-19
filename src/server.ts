@@ -6,6 +6,7 @@ import { connectionModule } from "./database/config";
 import { sectionTemplate } from "./router/sectionTemplates";
 import { masterTemplateRoutes } from "./router/masterTemplate";
 import * as cors from "cors";
+import { dotPhraseRoute } from "./router/dotPhrase";
 const port = process.env.PORT
 export const app = express();
 
@@ -20,6 +21,7 @@ connectionModule()
     if (res === INITIAL_CONNECTION_ESTABLISHED) {
         app.use("/", sectionTemplate);
         app.use("/", masterTemplateRoutes);
+        app.use("/", dotPhraseRoute);
         const server = http.createServer(app);
         server.listen(port, async ()=> console.log(`SERVER RUNNING AT PORT::${port}`))        
     }
