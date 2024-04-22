@@ -1,1 +1,0 @@
-{"version":3,"file":"sectionCategories.js","sourceRoot":"","sources":["../../src/models/sectionCategories.ts"],"names":[],"mappings":";;;AAAA,qDAAoD;AACpD,MAAM,qBAAqB,GAAG,IAAI,iCAAgB,CAAC,MAAM,CAAC;IACtD,YAAY,EAAE;QACV,IAAI,EAAE,MAAM;QACZ,QAAQ,EAAE,IAAI;QACd,MAAM,EAAE,IAAI;KACf;CACJ,CAAC,CAAC;AACU,QAAA,eAAe,GAAG,iCAAgB,CAAC,KAAK,CAAC,iBAAiB,EAAE,qBAAqB,CAAC,CAAA"}
