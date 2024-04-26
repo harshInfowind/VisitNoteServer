@@ -7,6 +7,8 @@ import { sectionTemplate } from "./router/sectionTemplates";
 import { masterTemplateRoutes } from "./router/masterTemplate";
 import * as cors from "cors";
 import { dotPhraseRoute } from "./router/dotPhrase";
+import { billingCodeRoute } from "./router/BillingCodes";
+import { billingCodePlanRoute } from "./router/billingCodePlan";
 const port = process.env.PORT
 export const app = express();
 
@@ -22,6 +24,8 @@ connectionModule()
         app.use("/", sectionTemplate);
         app.use("/", masterTemplateRoutes);
         app.use("/", dotPhraseRoute);
+        app.use("/", billingCodeRoute);
+        app.use("/", billingCodePlanRoute);
         const server = http.createServer(app);
         server.listen(port, async ()=> console.log(`SERVER RUNNING AT PORT::${port}`))        
     }
