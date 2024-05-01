@@ -1,0 +1,168 @@
+[{
+  "_id": {
+    "$oid": "662a463ad3588b7a48d3812b"
+  },
+  "billingCodes": "64455  - Injection, steroid or anesthetic",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662a464cd3588b7a48d3812d"
+  },
+  "billingCodes": "73620 - X-Ray foot 2 views",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662a4659d3588b7a48d3812f"
+  },
+  "billingCodes": "99213 - Established Patient Office",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d750f61b686f28694589"
+  },
+  "billingCodes": "99202 - Office or other outpatient visit for the evaluation and management of a new patient, which requires a medically appropriate history and /or examination and straightforward medical decision making. When using total time on the date of the encounter for code selection, 15 minutes must be met or exceeded.",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d777f61b686f2869458b"
+  },
+  "billingCodes": "99203 - Office or other outpatient visit for the evaluation and management of a new patient, which requires a medically appropriate history and /or examination and low level of medical decision making. When using time for code selection, 30 minutes must be met or exceeded.",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d78af61b686f2869458d"
+  },
+  "billingCodes": "99204 - Office or other outpatient visit for the evaluation and management of a new patient, which requires a medically appropriate history and /or examination and moderate level of medical decision making. When using time for code selection, 45 minutes must be met or exceeded.",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d79bf61b686f2869458f"
+  },
+  "billingCodes": "99205 - Office or other outpatient visit for the evaluation and management of a new patient, which requires a medically appropriate history and /or examination and high level of medical decision making. When using time for code selection, 60 minutes must be met or exceeded.",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d7aff61b686f28694591"
+  },
+  "billingCodes": "99211 - Office or other outpatient visit for the evaluation and management of an established patient, that may not require the presence of a physician or other qualified health care professional.",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d7c0f61b686f28694593"
+  },
+  "billingCodes": "99212 - Office or other outpatient visit for the evaluation and management of an established patient, which requires a medically appropriate history and/ or examination and straightforward medical decision making. When using total time on the date of the encounter for code selection, 10 minutes must be met or exceeded.",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d7d1f61b686f28694595"
+  },
+  "billingCodes": "99213 - Office or other outpatient visit for the evaluation and management of an established patient, which requires a medically appropriate history and/ or examination and low level of medical decision making. When using total time on the date of the encounter for code selection, 20 minutes must be met or exceeded.",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d7e2f61b686f28694597"
+  },
+  "billingCodes": "99214 - Office or other outpatient visit for the evaluation and management of an established patient, which requires a medically appropriate history and/ or examination and moderate level of medical decision making. When using total time on the date of the encounter for code selection, 30 minutes must be met or exceeded.",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d7f2f61b686f28694599"
+  },
+  "billingCodes": "99215 - Office or other outpatient visit for the evaluation and management of an established patient, which requires a medically appropriate history and/ or examination and high level of medical decision making. When using total time on the date of the encounter for code selection, 40 minutes must be met or exceeded.",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d803f61b686f2869459b"
+  },
+  "billingCodes": "10060 - Incision and drainage of abscess (eg, carbuncle, suppurative hidradenitis, cutaneous or subcutaneous abscess, cyst, furuncle, or paronychia); simple or single",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d817f61b686f2869459d"
+  },
+  "billingCodes": "10061 - Incision and drainage of abscess (eg, carbuncle, suppurative hidradenitis, cutaneous or subcutaneous abscess, cyst, furuncle, or paronychia); complicated or multiple",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d82bf61b686f2869459f"
+  },
+  "billingCodes": "10120 - Incision and removal of foreign body, subcutaneous tissues; simple",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d841f61b686f286945a1"
+  },
+  "billingCodes": "10121 - Incision and removal of foreign body, subcutaneous tissues; complicated",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d852f61b686f286945a3"
+  },
+  "billingCodes": "10140 - Incision and drainage of hematoma, seroma or fluid collection",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d861f61b686f286945a5"
+  },
+  "billingCodes": "10160 - Puncture aspiration of abscess, hematoma, bulla, or cyst",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d873f61b686f286945a7"
+  },
+  "billingCodes": "11102 - Tangential biopsy of skin (eg, shave, scoop, saucerize, curette); single lesion",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d88cf61b686f286945a9"
+  },
+  "billingCodes": "11103 - TTangential biopsy of skin (eg, shave, scoop, saucerize, curette); each separate/additional lesion (List separately in addition to code for primary procedure)",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d8a0f61b686f286945ab"
+  },
+  "billingCodes": "11104 - Punch biopsy of skin (including simple closure, when performed); single lesion",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d8b4f61b686f286945ad"
+  },
+  "billingCodes": "11105 - Punch biopsy of skin (including simple closure, when performed); each separate/additional lesion (List separately in addition to code for primary procedure)",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d8d0f61b686f286945af"
+  },
+  "billingCodes": "11106 - Incisional biopsy of skin (eg, wedge) (including simple skin closure, when performed); single lesion",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6631d8e7f61b686f286945b1"
+  },
+  "billingCodes": "11107 - Incisional biopsy of skin (eg, wedge) (including simple skin closure, when performed); each separate/additional lesion (List separately in addition to code for primary procedure)",
+  "__v": 0
+}]
